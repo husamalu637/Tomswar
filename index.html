@@ -38,7 +38,6 @@
             text-align: center;
         }
 
-        /* منطقة مشغل الفيديو */
         .video-display-area {
             background: #000;
             border-radius: 20px;
@@ -46,7 +45,7 @@
             border: 3px solid var(--primary);
             box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
             margin-bottom: 30px;
-            display: none; /* يظهر عند النقر فقط */
+            display: none;
             position: relative;
         }
 
@@ -65,7 +64,6 @@
             border: 0;
         }
 
-        /* شبكة أزرار الحلقات */
         .episodes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
@@ -118,28 +116,26 @@
 
 <header>
     <h1>🎬 صدى الطفولة</h1>
-    <p>اختر رقم الحلقة وابدأ المشاهدة فوراً</p>
+    <p>توم سوير - السلسلة الكاملة</p>
 </header>
 
 <div class="main-container">
     
     <div id="videoPlayer" class="video-display-area">
         <div class="responsive-iframe">
-            <iframe id="mainIframe" src="" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+            <iframe id="mainIframe" src="" allowfullscreen scrolling="no" frameborder="0"></iframe>
         </div>
         <div id="episodeTitle" style="padding: 10px; background: var(--card); font-weight: bold;"></div>
     </div>
 
     <h2 id="status-msg">اضغط على رقم الحلقة للمشاهدة:</h2>
 
-    <div class="episodes-grid" id="buttonsGrid">
-        </div>
+    <div class="episodes-grid" id="buttonsGrid"></div>
 
     <p class="info-text">جميع الحلقات الـ 49 متوفرة الآن بجودة عالية</p>
 </div>
 
 <script>
-    // مصفوفة البيانات (توم سوير - 49 حلقة)
     const episodes = [
         { n: 1, src: "https://meyon.com.ye/videos/embed/75a6c1a8-8e6f-4740-9764-1e0e80261327" },
         { n: 2, src: "https://meyon.com.ye/videos/embed/b263309a-41d3-455b-80cb-2292025585f8" },
@@ -197,7 +193,6 @@
     const iframe = document.getElementById('mainIframe');
     const titleDisp = document.getElementById('episodeTitle');
 
-    // إنشاء الأزرار تلقائياً
     episodes.forEach(ep => {
         const btn = document.createElement('button');
         btn.className = 'ep-btn';
@@ -209,19 +204,12 @@
     });
 
     function loadEpisode(num, url, btnElement) {
-        // 1. فتح الإعلان
         window.open('https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a', '_blank');
-
-        // 2. تحديث الواجهة
         player.style.display = 'block';
         iframe.src = url;
         titleDisp.innerText = "أنت تشاهد الآن: توم سوير - الحلقة " + num;
-
-        // 3. تمييز الزر النشط
         document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
         btnElement.classList.add('active');
-
-        // 4. التمرير للأعلى لمشاهدة الفيديو
         player.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 </script>
