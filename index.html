@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صدى الطفولة | توم سوير</title>
+    <title>تجربة التشغيل | صدى الطفولة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #00d2ff; --accent: #ff9800; --bg: #0b0f19; --card: #161e2e; }
         body { background-color: var(--bg); color: white; font-family: 'Cairo', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; background: linear-gradient(135deg, #00d2ff, #3a7bd5); padding: 40px 0; text-align: center; }
+        header { width: 100%; background: linear-gradient(135deg, #00d2ff, #3a7bd5); padding: 30px 0; text-align: center; }
         .main-container { max-width: 900px; width: 95%; margin: 20px auto; text-align: center; }
         .video-display-area { background: #000; border-radius: 20px; overflow: hidden; border: 3px solid var(--primary); margin-bottom: 30px; display: none; }
         .responsive-iframe { position: relative; padding-bottom: 56.25%; height: 0; }
         .responsive-iframe iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 15px; background: var(--card); padding: 25px; border-radius: 20px; }
-        .ep-btn { background: #252f44; color: white; border: 0; padding: 15px 0; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; }
+        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; background: var(--card); padding: 25px; border-radius: 20px; }
+        .ep-btn { background: #252f44; color: white; border: 0; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: bold; }
         .ep-btn.active { background: var(--accent); color: black; }
-        footer { margin-top: 50px; padding: 20px; opacity: 0.4; font-size: 0.8rem; }
+        .test-btn { background: #e91e63 !important; } /* لون مميز لحلقة عدنان ولينا */
     </style>
 </head>
 <body>
 
 <header>
-    <h1>🎬 صدى الطفولة</h1>
-    <p>مغامرات توم سوير - الحلقة <span id="currentNum">...</span></p>
+    <h1>🎬 مركز تجربة التشغيل</h1>
+    <p>جرب الحلقة الأولى (عدنان ولينا) ثم جرب توم سوير</p>
 </header>
 
 <div class="main-container">
@@ -34,59 +34,50 @@
         <div id="episodeTitle" style="padding: 10px; background: var(--card); font-weight: bold;"></div>
     </div>
 
-    <h3>اختر رقم الحلقة للمشاهدة:</h3>
-    <div class="episodes-grid" id="buttonsGrid"></div>
+    <div class="episodes-grid" id="buttonsGrid">
+        <button class="ep-btn test-btn" onclick="playTest('https://meyon.com.ye/videos/embed/1cb15e94-c5ef-4766-95fb-1d736a545d2e', 'عدنان ولينا - الحلقة 1', this)">🔹 تجربة عدنان ولينا</button>
+    </div>
+    
+    <h3 style="margin-top: 30px;">حلقات توم سوير:</h3>
+    <div class="episodes-grid" id="tomSawyerGrid"></div>
 </div>
 
 <script>
-    const ids = [
-        "75a6c1a8-8e6f-4740-9764-1e0e80261327", "b263309a-41d3-455b-80cb-2292025585f8", "f8ef324f-a790-482a-9f5b-df4d2d46e968",
-        "42b86121-6fdf-4a69-8260-8438beec46c7", "7e83e950-6819-4809-b47e-855755efc05d", "8828945f-4a37-4d7a-b5e1-51000858f121",
-        "94080bc6-f875-4f36-8c9a-5ca10292e85e", "e6840733-4f93-4a1b-bd9d-09c049d59296", "415d18d4-59e5-4f76-8809-5b62e49c7bc2",
-        "3d12235c-2045-4df3-a602-0e86b9706856", "38084659-548c-48c6-93d3-7d8389369324", "493c2007-849c-4395-9275-c05273752e51",
-        "375b42d7-5507-4e4b-9763-71887e076722", "6b26da79-567a-40a4-b0a3-f54f7a14e1a0", "e41be9a9-3286-455a-8b9a-47124f923b08",
-        "6bc83ca1-817c-473d-82d2-ca497e205567", "c666504a-441f-4952-a54f-124b899a77ce", "4a085600-1175-408a-986c-4876ec7c7d42",
-        "9389e18b-570a-47ec-a481-2292f3922da1", "13837946-b615-4670-827b-044738590c68", "91901323-93df-4034-9337-14227f6f595b",
-        "3525287e-40e9-4679-b141-8631ef828773", "84931a74-d4f1-4354-9dbb-8cc087b744d0", "7404391f-0e42-491a-8289-4971c0800361",
-        "68007a34-2e91-4e78-9556-9e9000a40232", "d97486e9-e33e-4d43-8515-5a2b0e6c5679", "3327663e-fca8-472b-871d-5cf7d00fca5f",
-        "92892949-0524-411a-886d-3467617b083d", "5480749e-711e-4509-8bc3-3b1263690d79", "89140228-6625-4638-9e55-6b801a615467",
-        "77190333-e18e-4a6c-9404-f65518177583", "81216550-936d-4955-a0c5-103310705f42", "64303114-645c-436f-8566-3843f809930b",
-        "184e2470-5e61-4a5a-95bf-a1f66acaa11c", "76af8680-df00-402c-b748-26483a1f9d52", "d301b60c-afb0-4986-b34c-9ec6c97956c2",
-        "4ed565c5-572b-453a-81b4-16ed993e90ec", "be972ee6-957a-4d87-a22a-f5565074fcd2", "4231f6df-8ced-4c0b-ae33-fd431245daac",
-        "4da4c282-79a7-4cca-b04f-aa0d41e01f1e", "b7a97ea0-51d2-49a7-8c0b-e8d6fa63e445", "ab6d82ab-2b58-4b98-af3f-052c03efd9c3",
-        "f9574096-ebe5-4b33-8755-c176afa17947", "200a3d2c-29e2-4171-abd0-f83208e1d51c", "ea3da94a-604c-4873-8a79-80697d495a37",
-        "c2d6a870-4593-49de-81bd-c2bb17906372", "7920ecd6-94a3-4128-91a5-0fa0466b5c27", "3d184515-ffac-4c84-b840-87c2cec6f49e",
-        "fe19529b-a88e-499f-80e9-a96a595a82ef"
+    const tomSawyerIds = [
+        "75a6c1a8-8e6f-4740-9764-1e0e80261327", "b263309a-41d3-455b-80cb-2292025585f8", "f8ef324f-a790-482a-9f5b-df4d2d46e968"
+        // أضفت أول 3 حلقات فقط للتجربة الآن
     ];
 
-    const grid = document.getElementById('buttonsGrid');
+    const tsGrid = document.getElementById('tomSawyerGrid');
     const player = document.getElementById('videoPlayer');
     const iframe = document.getElementById('mainIframe');
     const titleDisp = document.getElementById('episodeTitle');
-    const curLabel = document.getElementById('currentNum');
 
-    ids.forEach((id, index) => {
+    // دالة التشغيل
+    function playTest(url, title, btn) {
+        // فتح الإعلان
+        window.open('https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a', '_blank');
+        
+        player.style.display = 'block';
+        iframe.src = url;
+        titleDisp.innerText = title;
+
+        document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        player.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // بناء أزرار توم سوير
+    tomSawyerIds.forEach((id, index) => {
         const btn = document.createElement('button');
         btn.className = 'ep-btn';
-        btn.innerText = index + 1;
+        btn.innerText = "توم سوير ح" + (index + 1);
         btn.onclick = function() {
-            // فتح إعلانك
-            window.open('https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a', '_blank');
-            
-            player.style.display = 'block';
-            // تطبيق رابط التضمين الصحيح
-            iframe.src = "https://meyon.com.ye/videos/embed/" + id;
-            titleDisp.innerText = "أنت تشاهد الآن: توم سوير - الحلقة " + (index + 1);
-            curLabel.innerText = (index + 1);
-
-            document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            player.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            playTest("https://meyon.com.ye/videos/embed/" + id, "توم سوير - الحلقة " + (index + 1), btn);
         };
-        grid.appendChild(btn);
+        tsGrid.appendChild(btn);
     });
 </script>
 
-<footer>جميع الحقوق محفوظة - صدى الطفولة &copy; 2026</footer>
 </body>
 </html>
