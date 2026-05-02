@@ -34,13 +34,39 @@
         .main-container {
             max-width: 900px;
             width: 95%;
-            margin: 40px auto;
+            margin: 20px auto;
             text-align: center;
+        }
+
+        .video-display-area {
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
+            margin-bottom: 30px;
+            display: none;
+            position: relative;
+        }
+
+        .responsive-iframe {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .responsive-iframe iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
         .episodes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
             gap: 15px;
             background: var(--card);
             padding: 25px;
@@ -52,29 +78,24 @@
             background: #252f44;
             color: white;
             border: 2px solid transparent;
-            padding: 20px 0;
+            padding: 15px 0;
             border-radius: 12px;
             font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
-            text-decoration: none;
-            display: block;
         }
 
         .ep-btn:hover {
             background: var(--primary);
-            transform: scale(1.05);
+            transform: scale(1.1);
             border-color: white;
         }
 
-        .info-text {
-            margin: 20px 0;
-            color: var(--primary);
-            font-size: 1.1rem;
-            background: rgba(0, 210, 255, 0.1);
-            padding: 10px;
-            border-radius: 10px;
+        .ep-btn.active {
+            background: var(--accent);
+            color: black;
+            box-shadow: 0 0 15px var(--accent);
         }
 
         footer {
@@ -89,25 +110,25 @@
 
 <header>
     <h1>🎬 صدى الطفولة</h1>
-    <p>مغامرات توم سوير - مشاهدة مباشرة</p>
+    <p>توم سوير - السلسلة الكاملة</p>
 </header>
 
 <div class="main-container">
     
-    <div class="info-text">
-        ملاحظة: نظراً لقيود المصدر، ستفتح الحلقة في نافذة جديدة للمشاهدة بأفضل جودة.
+    <div id="videoPlayer" class="video-display-area">
+        <div class="responsive-iframe">
+            <iframe id="mainIframe" src="" allowfullscreen></iframe>
+        </div>
+        <div id="episodeTitle" style="padding: 10px; background: var(--card); font-weight: bold;"></div>
     </div>
 
-    <h2 id="status-msg">اختر رقم الحلقة للمشاهدة:</h2>
+    <h2 id="status-msg">اضغط على رقم الحلقة للمشاهدة:</h2>
 
-    <div class="episodes-grid" id="buttonsGrid">
-        </div>
-
+    <div class="episodes-grid" id="buttonsGrid"></div>
 </div>
 
 <script>
-    // مصفوفة الحلقات (49 حلقة)
-    const episodes = [
+    const ids = [
         "75a6c1a8-8e6f-4740-9764-1e0e80261327", "b263309a-41d3-455b-80cb-2292025585f8", "f8ef324f-a790-482a-9f5b-df4d2d46e968",
         "42b86121-6fdf-4a69-8260-8438beec46c7", "7e83e950-6819-4809-b47e-855755efc05d", "8828945f-4a37-4d7a-b5e1-51000858f121",
         "94080bc6-f875-4f36-8c9a-5ca10292e85e", "e6840733-4f93-4a1b-bd9d-09c049d59296", "415d18d4-59e5-4f76-8809-5b62e49c7bc2",
@@ -128,19 +149,22 @@
     ];
 
     const grid = document.getElementById('buttonsGrid');
+    const player = document.getElementById('videoPlayer');
+    const iframe = document.getElementById('mainIframe');
+    const titleDisp = document.getElementById('episodeTitle');
 
-    episodes.forEach((id, index) => {
+    ids.forEach((id, index) => {
         const btn = document.createElement('button');
         btn.className = 'ep-btn';
         btn.innerText = index + 1;
         btn.onclick = function() {
-            // 1. فتح الإعلان أولاً
             window.open('https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a', '_blank');
-            
-            // 2. فتح صفحة الفيديو الأصلية مباشرة بعد ثانية بسيطة لضمان عمل الرابطين
-            setTimeout(() => {
-                window.open('https://meyon.com.ye/videos/watch/' + id, '_blank');
-            }, 300);
+            player.style.display = 'block';
+            iframe.src = "https://meyon.com.ye/videos/embed/" + id;
+            titleDisp.innerText = "أنت تشاهد الآن: توم سوير - الحلقة " + (index + 1);
+            document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            player.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
         grid.appendChild(btn);
     });
