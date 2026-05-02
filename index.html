@@ -3,178 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صدى الطفولة | هزيم الرعد HD</title>
+    <title>مشاهدة هزيم الرعد | صدى الطفولة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #ffc107; /* لون ذهبي لهزيم الرعد */
-            --accent: #e91e63;
-            --bg: #050a14;
-            --card: #101828;
+        :root { --primary: #ffc107; --bg: #0b0f19; --card: #161e2e; }
+        body { background-color: var(--bg); color: white; font-family: 'Cairo', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        .video-box { 
+            width: 100%; max-width: 800px; background: #000; border-radius: 15px; 
+            border: 3px solid var(--primary); overflow: hidden; box-shadow: 0 0 20px rgba(255, 193, 7, 0.2);
         }
-
-        body {
-            background-color: var(--bg);
-            color: white;
-            font-family: 'Cairo', sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .responsive-iframe { position: relative; padding-bottom: 56.25%; height: 0; }
+        .responsive-iframe iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .play-section { margin-top: 20px; }
+        .btn-play { 
+            background: var(--primary); color: black; border: none; padding: 15px 40px; 
+            border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s;
         }
-
-        header {
-            width: 100%;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            padding: 40px 0;
-            text-align: center;
-            border-bottom: 4px solid var(--primary);
-        }
-
-        .main-container {
-            max-width: 1000px;
-            width: 95%;
-            margin: 20px auto;
-            text-align: center;
-        }
-
-        .video-display-area {
-            background: #000;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 3px solid var(--primary);
-            box-shadow: 0 0 30px rgba(255, 193, 7, 0.3);
-            margin-bottom: 30px;
-            display: none; 
-        }
-
-        .responsive-iframe {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-        }
-
-        .responsive-iframe iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        .episodes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 12px;
-            background: var(--card);
-            padding: 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .ep-btn {
-            background: #1f2937;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 15px 0;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .ep-btn:hover {
-            background: var(--primary);
-            color: black;
-            transform: translateY(-5px);
-        }
-
-        .ep-btn.active {
-            background: var(--primary);
-            color: black;
-            box-shadow: 0 0 15px var(--primary);
-        }
-
-        footer {
-            margin-top: 50px;
-            padding: 30px;
-            opacity: 0.6;
-            font-size: 0.9rem;
-        }
+        .btn-play:hover { transform: scale(1.05); background: #e0a800; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>⚡ صدى الطفولة | هزيم الرعد</h1>
-    <p>شاهد مغامرات هزيم الرعد كاملة بجودة عالية HD</p>
+    <h1>⚡ هزيم الرعد HD</h1>
+    <p>الحلقة التي اخترتها جاهزة للمشاهدة الآن</p>
 </header>
 
-<div class="main-container">
-    
-    <div id="videoPlayer" class="video-display-area">
-        <div class="responsive-iframe">
-            <iframe id="mainIframe" src="" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-        </div>
-        <div id="episodeTitle" style="padding: 15px; background: var(--card); font-weight: bold; color: var(--primary);"></div>
+<div class="video-box" id="playerArea" style="display: none;">
+    <div class="responsive-iframe">
+        <iframe id="mainVid" src="" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
     </div>
+</div>
 
-    <h3>قائمة الحلقات (1 - 52):</h3>
-    <div class="episodes-grid" id="buttonsGrid"></div>
-
+<div class="play-section">
+    <button class="btn-play" onclick="startPlay()">▶ اضغط هنا لمشاهدة الحلقة</button>
 </div>
 
 <script>
-    // معرفات حلقات هزيم الرعد المعتمدة على سيرفر Meyon
-    const ids = [
-        "42646297-b643-4e36-93da-0c7f1a30283c", "3834199c-6a15-430c-8472-e1c75ca2483a", "6a74b330-745a-4a27-a006-2581691152a5",
-        "95a04473-b883-4905-950c-e2f4943f07a1", "24823901-7006-4074-b4a1-05d02334f66a", "37508386-8f3b-4861-bd80-9286f78f8695",
-        "3d4a2b97-9e3f-4222-9018-b22384917961", "f0857960-9832-4217-a068-07e05072049d", "d885685d-8520-43eb-a773-4011855e94b2",
-        "61759600-9818-4a6c-9c97-6a137e07662c", "34114704-5115-4674-8255-081977752e5a", "d5145893-6c70-4f5d-91b9-373302758133",
-        "a73d3284-9040-4f51-b88d-71261a8775f0", "8f4806a6-f875-433b-8534-58074902131b", "893d2073-677c-4740-9a3b-9e46955075f7",
-        "8195d24f-a03a-4934-bc94-436f510803c6", "4108d1a1-f3b1-4f38-958b-03c035693077", "b304c47e-a89c-4395-97e3-0599a0c1a01c",
-        "2d3c1106-932c-472b-8a7e-40e118c7283d", "53c847a9-11f3-455b-800a-22d4a13292b3", "79401314-e57c-4638-b78b-3023a1a15467",
-        "8e5d07c6-f80e-436f-8a0a-0c7f1a30283c", "e5812351-4171-482a-9f5b-df4d2d46e968", "9231f6df-8ced-4c0b-ae33-fd431245daac",
-        "200a3d2c-29e2-4171-abd0-f83208e1d51c", "ab6d82ab-2b58-4b98-af3f-052c03efd9c3", "4ed565c5-572b-453a-81b4-16ed993e90ec",
-        "6b26da79-567a-40a4-b0a3-f54f7a14e1a0", "c666504a-441f-4952-a54f-124b899a77ce", "4a085600-1175-408a-986c-4876ec7c7d42",
-        "3525287e-40e9-4679-b141-8631ef828773", "84931a74-d4f1-4354-9dbb-8cc087b744d0", "7404391f-0e42-491a-8289-4971c0800361",
-        "68007a34-2e91-4e78-9556-9e9000a40232", "d97486e9-e33e-4d43-8515-5a2b0e6c5679", "3327663e-fca8-472b-871d-5cf7d00fca5f",
-        "92892949-0524-411a-886d-3467617b083d", "5480749e-711e-4509-8bc3-3b1263690d79", "89140228-6625-4638-9e55-6b801a615467",
-        "77190333-e18e-4a6c-9404-f65518177583", "81216550-936d-4955-a0c5-103310705f42", "64303114-645c-436f-8566-3843f809930b",
-        "184e2470-5e61-4a5a-95bf-a1f66acaa11c", "76af8680-df00-402c-b748-26483a1f9d52", "d301b60c-afb0-4986-b34c-9ec6c97956c2",
-        "be972ee6-957a-4d87-a22a-f5565074fcd2", "4231f6df-8ced-4c0b-ae33-fd431245daac", "4da4c282-79a7-4cca-b04f-aa0d41e01f1e",
-        "b7a97ea0-51d2-49a7-8c0b-e8d6fa63e445", "7920ecd6-94a3-4128-91a5-0fa0466b5c27", "3d184515-ffac-4c84-b840-87c2cec6f49e",
-        "5a68b5cb-55e3-413f-b4d7-03cfb43b084c" // الحلقة 52 الأخيرة
-    ];
-
-    const grid = document.getElementById('buttonsGrid');
-    const player = document.getElementById('videoPlayer');
-    const iframe = document.getElementById('mainIframe');
-    const titleDisp = document.getElementById('episodeTitle');
-
-    ids.forEach((id, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'ep-btn';
-        btn.innerText = index + 1;
-        btn.onclick = function() {
-            // فتح إعلانك (رابط الربح الخاص بك)
-            window.open('https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a', '_blank');
-            
-            player.style.display = 'block';
-            iframe.src = "https://meyon.com.ye/videos/embed/" + id;
-            titleDisp.innerText = "أنت تشاهد الآن: هزيم الرعد - الحلقة " + (index + 1);
-
-            document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            player.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        };
-        grid.appendChild(btn);
-    });
+    function startPlay() {
+        // فتح رابط الإعلان الخاص بك أولاً
+        window.open('https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a', '_blank');
+        
+        // إظهار الفيديو وتشغيل الرابط الذي يعمل
+        document.getElementById('playerArea').style.display = 'block';
+        document.getElementById('mainVid').src = "https://meyon.com.ye/videos/embed/5a68b5cb-55e3-413f-b4d7-03cfb43b084c";
+        
+        // تمرير الصفحة للفيديو بسلاسة
+        document.getElementById('playerArea').scrollIntoView({ behavior: 'smooth' });
+    }
 </script>
 
-<footer>حقوق البث محفوظة لموقع المصدر - صدى الطفولة 2026 &copy;</footer>
 </body>
 </html>
