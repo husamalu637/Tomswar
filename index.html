@@ -3,99 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صدى الطفولة | مغامرات توم سوير</title>
+    <title>صدى الطفولة | توم سوير HD</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4caf50; /* لون أخضر مناسب لجو المغامرات */
-            --accent: #ff9800;
-            --bg: #0b0f19;
-            --card: #161e2e;
+            --primary-color: #00d2ff; /* اللون السماوي لعدنان ولينا */
+            --secondary-color: #3a7bd5;
+            --bg-color: #0b0f19;
+            --card-bg: #161e2e;
+            --text-color: #ffffff;
+            --accent-color: #ff9800;
         }
+
         body {
-            background-color: var(--bg);
-            color: white;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             font-family: 'Cairo', sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
+        /* رأس الصفحة بنفس استايل عدنان ولينا */
         header {
             width: 100%;
-            background: linear-gradient(135deg, #2e7d32, #1b5e20);
-            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 40px 0;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border-bottom: 3px solid rgba(255,255,255,0.1);
         }
+
+        header h1 { margin: 0; font-size: 2.5rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+        header p { margin: 10px 0 0; opacity: 0.9; font-size: 1.1rem; }
+
         .main-container {
-            max-width: 900px;
+            max-width: 950px;
             width: 95%;
-            margin: 20px auto;
+            margin: 30px auto;
             text-align: center;
         }
+
+        /* منطقة مشغل الفيديو */
         .video-display-area {
             background: #000;
             border-radius: 20px;
             overflow: hidden;
-            border: 3px solid var(--primary);
-            margin-bottom: 30px;
-            display: none; 
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2);
+            margin-bottom: 35px;
+            display: none; /* تظهر عند اختيار حلقة */
         }
+
         .responsive-iframe {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
         }
+
         .responsive-iframe iframe {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             border: 0;
         }
+
+        .ep-info-bar {
+            padding: 15px;
+            background: var(--card-bg);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        /* شبكة الأزرار بنفس توزيع واجهة عدنان ولينا */
+        .episodes-section-title {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
         .episodes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
-            gap: 12px;
-            background: var(--card);
-            padding: 20px;
-            border-radius: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 15px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
+
         .ep-btn {
             background: #252f44;
             color: white;
-            border: none;
-            padding: 15px 0;
-            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 0;
+            border-radius: 15px;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 900;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
+
         .ep-btn:hover {
-            background: var(--primary);
-            transform: scale(1.1);
+            background: var(--primary-color);
+            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
         }
+
         .ep-btn.active {
-            background: var(--accent);
-            color: black;
-            box-shadow: 0 0 15px var(--accent);
+            background: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.4);
         }
+
         footer {
-            margin-top: 40px;
-            padding: 20px;
+            margin-top: 60px;
+            padding: 30px;
             opacity: 0.5;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            .episodes-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); padding: 15px; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>🌳 مغامرات توم سوير</h1>
-    <p>شاهد جميع الحلقات بجودة عالية HD</p>
+    <h1>🎬 صدى الطفولة</h1>
+    <p>مغامرات توم سوير - بجودة عالية HD</p>
 </header>
 
 <div class="main-container">
@@ -103,15 +151,22 @@
         <div class="responsive-iframe">
             <iframe id="mainIframe" src="" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
         </div>
-        <div id="episodeTitle" style="padding: 15px; background: var(--card); font-weight: bold;"></div>
+        <div id="episodeTitle" class="ep-info-bar"></div>
     </div>
 
-    <h3>قائمة الحلقات:</h3>
+    <div class="episodes-section-title">
+        <span>📂</span> قائمة الحلقات كاملة
+    </div>
+
     <div class="episodes-grid" id="buttonsGrid"></div>
 </div>
 
+<footer>
+    <p>جميع الحقوق محفوظة - صدى الطفولة &copy; 2026</p>
+</footer>
+
 <script>
-    // هذه هي الروابط التي أرسلتها أنت مرتبة من 1 إلى 49
+    // المعرفات (IDs) التي أرسلتها وتعمل 100%
     const ids = [
         "de154ba9-de70-4425-8269-e32a4ae228a1", "09fbf3f3-ba38-42cb-9ba0-4ee80294b0a7", "455a7ce4-c57e-43b2-aba3-531af6a021cc",
         "fd331e18-ada6-456a-bb58-35b6985f3ccf", "c5a51a66-77ae-40fa-845e-1f037ac1717a", "2fe9a3c5-8682-4254-b0f6-7b74c6e6db01",
@@ -142,21 +197,24 @@
         btn.className = 'ep-btn';
         btn.innerText = index + 1;
         btn.onclick = function() {
-            // فتح رابط الإعلان الخاص بك
+            // فتح رابط إعلاناتك
             window.open('https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a', '_blank');
             
+            // تحديث المشغل
             player.style.display = 'block';
             iframe.src = "https://meyon.com.ye/videos/embed/" + id;
-            titleDisp.innerText = "أنت تشاهد الآن: توم سوير - الحلقة " + (index + 1);
+            titleDisp.innerText = "مشاهدة ممتعة: توم سوير - الحلقة " + (index + 1);
 
+            // تمييز الزر النشط
             document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            
+            // النزول للفيديو تلقائياً
             player.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
         grid.appendChild(btn);
     });
 </script>
 
-<footer>جميع الحقوق محفوظة - صدى الطفولة &copy; 2026</footer>
 </body>
 </html>
