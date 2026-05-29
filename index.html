@@ -3,134 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صدى الطفولة | توم سوير HD</title>
+    <title>صدى الطفولة | توم سوير</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #00d2ff;
-            --secondary: #3a7bd5;
-            --bg: #0b0f19;
-            --card: #161e2e;
-            --text: #ffffff;
-            --accent: #ff9800;
-        }
-
+        :root { --primary: #00d2ff; --accent: #ff9800; --bg: #0b0f19; --card: #161e2e; }
+        * { user-select: none; }
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Cairo', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: var(--bg); color: white; font-family: 'Cairo', sans-serif;
+            margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;
+            overflow-x: hidden; position: relative;
         }
-
         header {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 40px 0;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            width: 100%; background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            padding: 40px 0; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
-
-        /* تنسيق قسم الإعلانات */
-        .ad-banner {
-            margin: 20px 0;
-            text-align: center;
-            min-height: 250px;
+        header h1 { margin: 0; font-size: 2.2rem; }
+        header p { margin: 5px 0 0; font-size: 1rem; }
+        .banner-top, .banner-bottom {
+            width: 100%; text-align: center; background: #0a0e15; padding: 20px 0;
+            margin: 0 auto; display: flex; justify-content: center; align-items: center;
+            border-radius: 12px; overflow-x: auto;
         }
-
-        header h1 { margin: 0; font-size: 2.2rem; font-weight: 900; }
-        header p { margin: 10px 0 0; opacity: 0.9; }
-
-        .main-container {
-            max-width: 900px;
-            width: 95%;
-            margin: 30px auto;
+        .banner-top { max-width: 900px; margin-top: 20px; margin-bottom: 10px; }
+        .banner-bottom { max-width: 900px; margin-top: 30px; margin-bottom: 20px; }
+        .main-container { max-width: 900px; width: 95%; margin: 0 auto; text-align: center; }
+        .video-wrapper-outer { position: relative; z-index: 1; }
+        .video-display-area {
+            background: #000; border-radius: 20px; overflow: hidden; border: 3px solid var(--primary);
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.2); margin-bottom: 30px; display: none; position: relative;
         }
-
-        .video-wrapper {
-            background: #000;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 3px solid var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2);
-            margin-bottom: 30px;
-            display: none;
-        }
-
         .responsive-iframe {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
+            position: relative; width: 100%; aspect-ratio: 16 / 9;
+            background: #000; overflow: hidden;
         }
-
+        /* رفع المشغل الأساسي - نفس إعدادات عدنان ولينا */
         .responsive-iframe iframe {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border: 0;
+            position: absolute; top: -160px; left: 0; width: 100%; height: calc(100% + 160px);
+            border: 0; overflow: hidden; pointer-events: auto;
         }
-
-        .video-footer {
-            padding: 15px;
-            background: var(--card);
-            text-align: center;
-            font-weight: bold;
-            color: var(--primary);
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.4rem;
-            font-weight: 900;
-            color: var(--text);
-        }
-
-        .episodes-container {
-            background: var(--card);
-            padding: 25px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
         .episodes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 12px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 15px; background: var(--card); padding: 25px;
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-
         .ep-btn {
-            background: #252f44;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 15px 0;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s ease;
+            background: #252f44; color: white; border: 2px solid transparent;
+            padding: 15px 0; border-radius: 12px; font-size: 1.2rem;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
         }
-
-        .ep-btn:hover {
-            background: var(--primary);
-            color: #000;
-            transform: translateY(-3px);
-        }
-
-        .ep-btn.active {
-            background: var(--accent);
-            color: #000;
-            border-color: var(--accent);
-            box-shadow: 0 0 15px rgba(255, 152, 0, 0.4);
-        }
-
-        footer {
-            margin: 40px 0;
-            opacity: 0.5;
-            font-size: 0.8rem;
+        .ep-btn:hover { background: var(--primary); transform: scale(1.1); border-color: white; }
+        .ep-btn.active { background: var(--accent); color: black; box-shadow: 0 0 15px var(--accent); }
+        .info-text { margin-top: 20px; color: var(--primary); font-size: 1.1rem; }
+        footer { margin-top: 50px; padding: 20px; opacity: 0.4; font-size: 0.8rem; }
+        h2#status-msg { margin-top: 10px; }
+        @media (max-width: 600px) {
+            .episodes-grid { grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; padding: 15px; }
+            .ep-btn { padding: 10px 0; font-size: 1rem; }
         }
     </style>
 </head>
@@ -138,97 +66,99 @@
 
 <header>
     <h1>🎬 صدى الطفولة</h1>
-    <p>مغامرات توم سوير بجودة HD</p>
+    <p>اختر رقم الحلقة وابدأ المشاهدة فوراً</p>
 </header>
 
-<div class="ad-banner">
+<!-- بنر أعلى الموقع -->
+<div class="banner-top">
     <script>
-      atOptions = {
-        'key' : 'b8ba5b25ff25e41ea44c2df3a1b05378',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
+        atOptions = { 'key' : 'b8ba5b25ff25e41ea44c2df3a1b05378', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
     </script>
     <script src="https://www.highperformanceformat.com/b8ba5b25ff25e41ea44c2df3a1b05378/invoke.js"></script>
 </div>
 
 <div class="main-container">
-    
-    <div id="videoContainer" class="video-wrapper">
-        <div class="responsive-iframe">
-            <iframe id="mainIframe" src="" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    <div class="video-wrapper-outer">
+        <div id="videoPlayer" class="video-display-area">
+            <div class="responsive-iframe">
+                <iframe id="mainIframe" src="" allowfullscreen scrolling="no"></iframe>
+            </div>
+            <div id="episodeTitle" style="padding: 10px; background: var(--card); font-weight: bold;"></div>
         </div>
-        <div id="epTitle" class="video-footer"></div>
     </div>
-
-    <div class="section-header">قائمة الحلقات</div>
-    
-    <div class="episodes-container">
-        <div class="episodes-grid" id="buttonsGrid"></div>
-    </div>
-
-    <div class="ad-banner">
-        <script>
-          atOptions = {
-            'key' : 'b8ba5b25ff25e41ea44c2df3a1b05378',
-            'format' : 'iframe',
-            'height' : 250,
-            'width' : 300,
-            'params' : {}
-          };
-        </script>
-        <script src="https://www.highperformanceformat.com/b8ba5b25ff25e41ea44c2df3a1b05378/invoke.js"></script>
-    </div>
-
+    <h2 id="status-msg">اضغط على رقم الحلقة للمشاهدة:</h2>
+    <div class="episodes-grid" id="buttonsGrid"></div>
+    <p class="info-text">جميع حلقات توم سوير (49 حلقة) متوفرة الآن بجودة عالية</p>
 </div>
 
-<footer>
-    <p>جميع الحقوق محفوظة - صدى الطفولة &copy; 2026</p>
-</footer>
+<!-- بنر أسفل الموقع -->
+<div class="banner-bottom">
+    <script>
+        atOptions = { 'key' : 'b8ba5b25ff25e41ea44c2df3a1b05378', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+    </script>
+    <script src="https://www.highperformanceformat.com/b8ba5b25ff25e41ea44c2df3a1b05378/invoke.js"></script>
+</div>
+
+<footer>جميع الحقوق محفوظة - صدى الطفولة &copy; 2026</footer>
 
 <script>
-    const ids = [
-        "de154ba9-de70-4425-8269-e32a4ae228a1", "09fbf3f3-ba38-42cb-9ba0-4ee80294b0a7", "455a7ce4-c57e-43b2-aba3-531af6a021cc",
-        "fd331e18-ada6-456a-bb58-35b6985f3ccf", "c5a51a66-77ae-40fa-845e-1f037ac1717a", "2fe9a3c5-8682-4254-b0f6-7b74c6e6db01",
-        "a827c95e-6122-42fb-821a-cd23606b32cf", "0bdc3a84-59f1-469e-ae3e-3c35c7214095", "6298c13b-30f7-4505-a0d3-5272fe201722",
-        "770dab04-80d8-464a-8800-32339da2e76d", "597a0b92-7560-47c2-89c6-150733b930d6", "1e0f6102-74e9-4c16-83a7-1d761c77cbe9",
-        "f59fb0ac-f8eb-4636-b886-bbf60b7a7b44", "1107a2fc-d427-4ee6-95b3-a6fa1e1da462", "d4bae02f-616a-4cdd-9c4d-407e9cb29e9f",
-        "c1ded624-7189-4066-982f-d9bb89c71df8", "6280ed04-39c6-410d-bfae-ab337a3d80e8", "75946f78-180e-43c5-8055-32da50f5af8c",
-        "ac5df4f0-87d5-4001-b30b-8185e55927b1", "4062c5d1-21e8-45f0-b484-b834a53e27b6", "f3ff55e9-33e5-4b09-ab4c-c7b57baf0adf",
-        "b5bb56c3-faf3-46a0-88f5-53b71f0e162a", "6f110d63-eff0-4837-8ba3-4ed6cf13af78", "11cb2978-4e2d-40fe-ac8c-17bc964f7733",
-        "065c109d-2204-4fe6-820a-b5165781424f", "4d7572b5-aef0-410f-88e7-e24e6cc0ad08", "66b0689d-4d13-495d-85f4-b191898703e7",
-        "8d0a67d0-8566-46b7-837c-44a1bb1fc6c6", "2a57b578-1a0b-40b2-ba0c-33bfd2f8329f", "2a369a77-9058-4f17-b17c-c1fbfddc3ae1",
-        "c17635a8-0a70-4bc2-bb67-fadfe43eaaef", "eb66c95f-c488-4ce6-b045-6b6c8eeeb8fc", "a4131189-fdcd-477b-bba2-cc57f8bd029e",
-        "184e2470-5e61-4a5a-95bf-a1f66acaa11c", "76af8680-df00-402c-b748-26483a1f9d52", "d301b60c-afb0-4986-b34c-9ec6c97956c2",
-        "4ed565c5-572b-453a-81b4-16ed993e90ec", "be972ee6-957a-4d87-a22a-f5565074fcd2", "4231f6df-8ced-4c0b-ae33-fd431245daac",
-        "4da4c282-79a7-4cca-b04f-aa0d41e01f1e", "b7a97ea0-51d2-49a7-8c0b-e8d6fa63e445", "ab6d82ab-2b58-4b98-af3f-052c03efd9c3",
-        "f9574096-ebe5-4b33-8755-c176afa17947", "200a3d2c-29e2-4171-abd0-f83208e1d51c", "ea3da94a-604c-4873-8a79-80697d495a37",
-        "c2d6a870-4593-49de-81bd-c2bb17906372", "7920ecd6-94a3-4128-91a5-0fa0466b5c27", "3d184515-ffac-4c84-b840-87c2cec6f49e",
-        "fe19529b-a88e-499f-80e9-a96a595a82ef"
-    ];
+    // إعدادات مسلسل توم سوير - 49 حلقة بناءً على الصفحة
+    const totalEpisodes = 49; // يمكنك تغيير هذا الرقم إذا كان العدد مختلفاً
+    const episodeLinks = [];
+
+    // الحلقة 1 = 4852، الحلقة 49 = 4900
+    for (let i = 0; i < totalEpisodes; i++) {
+        let episodeId = 4852 + i;
+        episodeLinks.push(`https://cartoony.net/watch/494/${episodeId}`);
+    }
 
     const grid = document.getElementById('buttonsGrid');
-    const container = document.getElementById('videoContainer');
+    const player = document.getElementById('videoPlayer');
     const iframe = document.getElementById('mainIframe');
-    const titleDisp = document.getElementById('epTitle');
+    const titleDisp = document.getElementById('episodeTitle');
+    
+    let scrollPosition = 0;
+    let bodyStylePosition = '';
+    let bodyStyleTop = '';
 
-    ids.forEach((id, index) => {
+    function lockPage() {
+        scrollPosition = window.scrollY;
+        bodyStylePosition = document.body.style.position || '';
+        bodyStyleTop = document.body.style.top || '';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollPosition}px`;
+        document.body.style.width = '100%';
+    }
+
+    function unlockPage() {
+        document.body.style.position = bodyStylePosition;
+        document.body.style.top = bodyStyleTop;
+        document.body.style.width = '';
+        window.scrollTo(0, scrollPosition);
+    }
+
+    episodeLinks.forEach((link, index) => {
         const btn = document.createElement('button');
         btn.className = 'ep-btn';
         btn.innerText = index + 1;
         btn.onclick = function() {
-            container.style.display = 'block';
-            iframe.src = "https://meyon.com.ye/videos/embed/" + id;
-            titleDisp.innerText = "أنت تشاهد الآن: الحلقة " + (index + 1);
-
+            lockPage();
+            player.style.display = 'block';
+            iframe.src = link;
+            titleDisp.innerText = "أنت تشاهد الآن: توم سوير - الحلقة " + (index + 1);
             document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => { unlockPage(); }, 500);
         };
         grid.appendChild(btn);
+    });
+    
+    iframe.addEventListener('load', function() {
+        try {
+            iframe.contentWindow.addEventListener('scroll', function(e) {
+                iframe.contentWindow.scrollTo(0, 0);
+            });
+        } catch(e) { /* تجاهل أخطاء CORS */ }
     });
 </script>
 
