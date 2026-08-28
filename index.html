@@ -7,41 +7,157 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #00d2ff; --accent: #ff9800; --bg: #0b0f19; --card: #161e2e; }
-        * { user-select: none; }
+        * { user-select: none; box-sizing: border-box; }
         body { background-color: var(--bg); color: white; font-family: 'Cairo', sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; position: relative; }
-        header { width: 100%; background: linear-gradient(135deg, #00d2ff, #3a7bd5); padding: 40px 0; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        header { width: 100%; background: linear-gradient(135deg, #00d2ff, #3a7bd5); padding: 30px 0; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        
         .banner-top, .banner-bottom { width: 100%; text-align: center; background: #0a0e15; padding: 20px 0; margin: 0 auto; display: flex; justify-content: center; align-items: center; border-radius: 12px; overflow-x: auto; }
         .banner-top { max-width: 900px; margin-top: 20px; margin-bottom: 10px; }
         .banner-bottom { max-width: 900px; margin-top: 30px; margin-bottom: 20px; }
+        
         .main-container { max-width: 900px; width: 95%; margin: 0 auto; text-align: center; }
+        
+        .back-home-btn { background: #252f44; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-family: 'Cairo', sans-serif; font-weight: bold; cursor: pointer; margin: 20px 0; transition: 0.3s; display: inline-flex; align-items: center; gap: 5px; text-decoration: none; }
+        .back-home-btn:hover { background: var(--primary); color: #000; }
+
         .video-wrapper-outer { position: relative; z-index: 1; }
         .video-display-area { background: #000; border-radius: 20px; overflow: hidden; border: 3px solid var(--primary); box-shadow: 0 0 30px rgba(0, 210, 255, 0.2); margin-bottom: 30px; display: none; position: relative; }
         .responsive-iframe { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
-        .responsive-iframe iframe { position: absolute; top: -160px; left: 0; width: 100%; height: calc(100% + 160px); border: 0; overflow: hidden; pointer-events: auto; }
+        .responsive-iframe iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; overflow: hidden; pointer-events: auto; }
+        
         .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 15px; background: var(--card); padding: 25px; border-radius: 20px; }
-        .ep-btn { background: #252f44; color: white; border: 2px solid transparent; padding: 15px 0; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .ep-btn:hover { background: var(--primary); transform: scale(1.1); border-color: white; }
+        .ep-btn { background: #252f44; color: white; border: 2px solid transparent; padding: 15px 0; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; font-family: 'Cairo', sans-serif; }
+        .ep-btn:hover { background: var(--primary); transform: scale(1.1); border-color: white; color: #000; }
         .ep-btn.active { background: var(--accent); color: black; box-shadow: 0 0 15px var(--accent); }
+
         .info-text { margin-top: 20px; color: var(--primary); }
         footer { margin-top: 50px; padding: 20px; opacity: 0.4; text-align: center; }
-        @media (max-width: 600px) { .episodes-grid { grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; padding: 15px; } .ep-btn { padding: 10px 0; font-size: 1rem; } }
+        @media (max-width: 600px) { .episodes-grid { grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; padding: 15px; } .ep-btn { padding: 12px 0; font-size: 1.1rem; } }
     </style>
 </head>
 <body>
-<header><h1>🎬 صدى الطفولة</h1><p>اختر رقم الحلقة وابدأ المشاهدة فوراً</p></header>
-<div class="banner-top"><script> atOptions = { 'key' : 'b8ba5b25ff25e41ea44c2df3a1b05378', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script><script src="https://www.highperformanceformat.com/b8ba5b25ff25e41ea44c2df3a1b05378/invoke.js"></script></div>
-<div class="main-container"><div class="video-wrapper-outer"><div id="videoPlayer" class="video-display-area"><div class="responsive-iframe"><iframe id="mainIframe" src="" allowfullscreen scrolling="no"></iframe></div><div id="episodeTitle" style="padding: 10px; background: var(--card); font-weight: bold;"></div></div></div><h2>اضغط على رقم الحلقة للمشاهدة:</h2><div class="episodes-grid" id="buttonsGrid"></div><p class="info-text">جميع حلقات توم سوير (49 حلقة) متوفرة الآن بجودة عالية</p></div>
-<div class="banner-bottom"><script> atOptions = { 'key' : 'b8ba5b25ff25e41ea44c2df3a1b05378', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script><script src="https://www.highperformanceformat.com/b8ba5b25ff25e41ea44c2df3a1b05378/invoke.js"></script></div>
+
+<header>
+    <h1>🎬 مسلسل توم سوير</h1>
+    <p>اختر رقم الحلقة وابدأ المشاهدة فوراً</p>
+</header>
+
+<!-- إعلان البنر العلوي -->
+<div class="banner-top">
+    <script> atOptions = { 'key' : 'b8ba5b25ff25e41ea44c2df3a1b05378', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
+    <script src="https://www.highperformanceformat.com/b8ba5b25ff25e41ea44c2df3a1b05378/invoke.js"></script>
+</div>
+
+<div class="main-container">
+    <a href="https://husamalu637.github.io/Sasuke/" class="back-home-btn">⬅ العودة إلى الرئيسية</a>
+
+    <div class="video-wrapper-outer">
+        <div id="videoPlayer" class="video-display-area">
+            <div class="responsive-iframe"><iframe id="mainIframe" src="" allowfullscreen allow="autoplay; encrypted-media" scrolling="no"></iframe></div>
+            <div id="episodeTitle" style="padding: 10px; background: var(--card); font-weight: bold;"></div>
+        </div>
+    </div>
+
+    <h2>اضغط على رقم الحلقة للمشاهدة:</h2>
+    <div class="episodes-grid" id="buttonsGrid"></div>
+    <p class="info-text">جميع حلقات توم سوير الـ 49 متوفرة وتعمل بكفاءة عالية</p>
+</div>
+
+<!-- إعلان البنر السفلي -->
+<div class="banner-bottom">
+    <script> atOptions = { 'key' : 'b8ba5b25ff25e41ea44c2df3a1b05378', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
+    <script src="https://www.highperformanceformat.com/b8ba5b25ff25e41ea44c2df3a1b05378/invoke.js"></script>
+</div>
+
 <footer>جميع الحقوق محفوظة - صدى الطفولة &copy; 2026</footer>
+
 <script>
-    const adLink = "https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a";
-    const totalEpisodes = 49;
-    const episodeLinks = []; for (let i = 0; i < totalEpisodes; i++) { episodeLinks.push(`https://cartoony.net/watch/494/${4852 + i}`); }
-    const grid = document.getElementById('buttonsGrid'); const player = document.getElementById('videoPlayer'); const iframe = document.getElementById('mainIframe'); const titleDisp = document.getElementById('episodeTitle');
+    const popupAdLink = "https://www.profitablecpmratenetwork.com/e41dj2h87?key=bef514b5ca3fa945e7a3b60e4a9ef21a";
+
+    // روابط الـ 49 حلقة مرتبة ومنظمة من 1 إلى 49
+    const episodeLinks = [
+        "https://meyon.com.ye/videos/embed/de154ba9-de70-4425-8269-e32a4ae228a1", // 1
+        "https://meyon.com.ye/videos/embed/09fbf3f3-ba38-42cb-9ba0-4ee80294b0a7", // 2
+        "https://meyon.com.ye/videos/embed/455a7ce4-c57e-43b2-aba3-531af6a021cc", // 3
+        "https://meyon.com.ye/videos/embed/fd331e18-ada6-456a-bb58-35b6985f3ccf", // 4
+        "https://meyon.com.ye/videos/embed/c5a51a66-77ae-40fa-845e-1f037ac1717a", // 5
+        "https://meyon.com.ye/videos/embed/2fe9a3c5-8682-4254-b0f6-7b74c6e6db01", // 6
+        "https://meyon.com.ye/videos/embed/a827c95e-6122-42fb-821a-cd23606b32cf", // 7
+        "https://meyon.com.ye/videos/embed/0bdc3a84-59f1-469e-ae3e-3c35c7214095", // 8
+        "https://meyon.com.ye/videos/embed/6298c13b-30f7-4505-a0d3-5272fe201722", // 9
+        "https://meyon.com.ye/videos/embed/770dab04-80d8-464a-8800-32339da2e76d", // 10
+        "https://meyon.com.ye/videos/embed/597a0b92-7560-47c2-89c6-150733b930d6", // 11
+        "https://meyon.com.ye/videos/embed/1e0f6102-74e9-4c16-83a7-1d761c77cbe9", // 12
+        "https://meyon.com.ye/videos/embed/f59fb0ac-f8eb-4636-b886-bbf60b7a7b44", // 13
+        "https://meyon.com.ye/videos/embed/1107a2fc-d427-4ee6-95b3-a6fa1e1da462", // 14
+        "https://meyon.com.ye/videos/embed/d4bae02f-616a-4cdd-9c4d-407e9cb29e9f", // 15
+        "https://meyon.com.ye/videos/embed/c1ded624-7189-4066-982f-d9bb89c71df8", // 16
+        "https://meyon.com.ye/videos/embed/6280ed04-39c6-410d-bfae-ab337a3d80e8", // 17
+        "https://meyon.com.ye/videos/embed/75946f78-180e-43c5-8055-32da50f5af8c", // 18
+        "https://meyon.com.ye/videos/embed/ac5df4f0-87d5-4001-b30b-8185e55927b1", // 19
+        "https://meyon.com.ye/videos/embed/4062c5d1-21e8-45f0-b484-b834a53e27b6", // 20
+        "https://meyon.com.ye/videos/embed/f3ff55e9-33e5-4b09-ab4c-c7b57baf0adf", // 21
+        "https://meyon.com.ye/videos/embed/b5bb56c3-faf3-46a0-88f5-53b71f0e162a", // 22
+        "https://meyon.com.ye/videos/embed/6f110d63-eff0-4837-8ba3-4ed6cf13af78", // 23
+        "https://meyon.com.ye/videos/embed/11cb2978-4e2d-40fe-ac8c-17bc964f7733", // 24
+        "https://meyon.com.ye/videos/embed/065c109d-2204-4fe6-820a-b5165781424f", // 25
+        "https://meyon.com.ye/videos/embed/4d7572b5-aef0-410f-88e7-e24e6cc0ad08", // 26
+        "https://meyon.com.ye/videos/embed/66b0689d-4d13-495d-85f4-b191898703e7", // 27
+        "https://meyon.com.ye/videos/embed/8d0a67d0-8566-46b7-837c-44a1bb1fc6c6", // 28
+        "https://meyon.com.ye/videos/embed/2a57b578-1a0b-40b2-ba0c-33bfd2f8329f", // 29
+        "https://meyon.com.ye/videos/embed/2a369a77-9058-4f17-b17c-c1fbfddc3ae1", // 30
+        "https://meyon.com.ye/videos/embed/c17635a8-0a70-4bc2-bb67-fadfe43eaaef", // 31
+        "https://meyon.com.ye/videos/embed/eb66c95f-c488-4ce6-b045-6b6c8eeeb8fc", // 32
+        "https://meyon.com.ye/videos/embed/a4131189-fdcd-477b-bba2-cc57f8bd029e", // 33
+        "https://meyon.com.ye/videos/embed/184e2470-5e61-4a5a-95bf-a1f66acaa11c", // 34
+        "https://meyon.com.ye/videos/embed/76af8680-df00-402c-b748-26483a1f9d52", // 35
+        "https://meyon.com.ye/videos/embed/d301b60c-afb0-4986-b34c-9ec6c97956c2", // 36
+        "https://meyon.com.ye/videos/embed/4ed565c5-572b-453a-81b4-16ed993e90ec", // 37
+        "https://meyon.com.ye/videos/embed/be972ee6-957a-4d87-a22a-f5565074fcd2", // 38
+        "https://meyon.com.ye/videos/embed/4231f6df-8ced-4c0b-ae33-fd431245daac", // 39
+        "https://meyon.com.ye/videos/embed/4da4c282-79a7-4cca-b04f-aa0d41e01f1e", // 40
+        "https://meyon.com.ye/videos/embed/b7a97ea0-51d2-49a7-8c0b-e8d6fa63e445", // 41
+        "https://meyon.com.ye/videos/embed/ab6d82ab-2b58-4b98-af3f-052c03efd9c3", // 42
+        "https://meyon.com.ye/videos/embed/f9574096-ebe5-4b33-8755-c176afa17947", // 43
+        "https://meyon.com.ye/videos/embed/200a3d2c-29e2-4171-abd0-f83208e1d51c", // 44
+        "https://meyon.com.ye/videos/embed/ea3da94a-604c-4873-8a79-80697d495a37", // 45
+        "https://meyon.com.ye/videos/embed/c2d6a870-4593-49de-81bd-c2bb17906372", // 46
+        "https://meyon.com.ye/videos/embed/7920ecd6-94a3-4128-91a5-0fa0466b5c27", // 47
+        "https://meyon.com.ye/videos/embed/3d184515-ffac-4c84-b840-87c2cec6f49e", // 48
+        "https://meyon.com.ye/videos/embed/fe19529b-a88e-499f-80e9-a96a595a82ef"  // 49
+    ];
+
+    const grid = document.getElementById('buttonsGrid'); 
+    const player = document.getElementById('videoPlayer'); 
+    const iframe = document.getElementById('mainIframe'); 
+    const titleDisp = document.getElementById('episodeTitle');
+    
     let scrollPosition = 0;
     function lockPage() { scrollPosition = window.scrollY; document.body.style.position = 'fixed'; document.body.style.top = `-${scrollPosition}px`; document.body.style.width = '100%'; }
     function unlockPage() { document.body.style.position = ''; document.body.style.top = ''; document.body.style.width = ''; window.scrollTo(0, scrollPosition); }
-    episodeLinks.forEach((link, index) => { const btn = document.createElement('button'); btn.className = 'ep-btn'; btn.innerText = index + 1; btn.onclick = function() { window.open(adLink, '_blank'); lockPage(); player.style.display = 'block'; iframe.src = link; titleDisp.innerText = "أنت تشاهد الآن: توم سوير - الحلقة " + (index + 1); document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); setTimeout(() => { unlockPage(); }, 500); }; grid.appendChild(btn); });
+
+    episodeLinks.forEach((link, index) => { 
+        const btn = document.createElement('button'); 
+        btn.className = 'ep-btn'; 
+        
+        let epNum = index + 1;
+        btn.innerText = epNum; // عرض رقم الحلقة فقط بدون أي جمل إضافية
+        
+        btn.onclick = function() { 
+            window.open(popupAdLink, '_blank');
+            
+            lockPage(); 
+            player.style.display = 'block'; 
+            iframe.src = link; 
+            titleDisp.innerText = "أنت تشاهد الآن: توم سوير - الحلقة " + epNum; 
+            
+            document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active')); 
+            btn.classList.add('active'); 
+            
+            setTimeout(() => { unlockPage(); }, 500); 
+        }; 
+        grid.appendChild(btn); 
+    });
 </script>
 </body>
 </html>
